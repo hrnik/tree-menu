@@ -1,6 +1,7 @@
 import { useReducer } from "react";
+import produce from "immer";
 
-const reducer = (state, action) => {
+const reducer = produce((state, action) => {
   const nodeId = action.payload;
   const previusSelectedAnchor = state.selectedAnchorId;
   const previusSelectedNode = state.selectedNodeId;
@@ -8,51 +9,29 @@ const reducer = (state, action) => {
     case "SELECT_PAGE":
       if (nodeId === state.selectedNodeId) return state;
 
-      return {
-        ...state,
-        [nodeId]: {
-          ...state[nodeId],
-          isSelected: true,
-          isOpen: true,
-        },
-        [previusSelectedNode]: {
-          ...state[previusSelectedNode],
-          isSelected: false,
-        },
-        [previusSelectedAnchor]: {
-          ...state[previusSelectedAnchor],
-          isSelected: false,
-        },
-        selectedNodeId: nodeId,
-        selectedAnchorId: null,
-      };
+      state[nodeId].isSelected = true;
+      state[nodeId].isOpen = true;
+
+      if (previusSelectedNode) state[previusSelectedNode].isSelected = false;
+      if (previusSelectedAnchor)
+        state[previusSelectedAnchor].isSelected = false;
+      state.selectedNodeId = nodeId;
+      state.selectedAnchorId = null;
+      break;
     case "SELECT_ANCHOR":
       if (nodeId === state.selectedAnchorId) return state;
-
-      return {
-        ...state,
-        [nodeId]: {
-          ...state[nodeId],
-          isSelected: true,
-        },
-        [previusSelectedAnchor]: {
-          ...state[previusSelectedAnchor],
-          isSelected: false,
-        },
-        selectedAnchorId: nodeId,
-      };
+      state[nodeId].isSelected = true;
+      if (previusSelectedAnchor)
+        state[previusSelectedAnchor].isSelected = false;
+      state.selectedAnchorId = nodeId;
+      break;
     case "TOOGLE_NODE":
-      return {
-        ...state,
-        [nodeId]: {
-          ...state[nodeId],
-          isOpen: !state[nodeId].isOpen,
-        },
-      };
+      state[nodeId].isOpen = !state[nodeId].isOpen;
+      break;
     default:
-      throw new Error();
+      return state;
   }
-};
+});
 
 const covnertToTree = (data, rootNodes) =>
   rootNodes.reduce((acc, val) => {
@@ -70,8 +49,8 @@ const covnertToTree = (data, rootNodes) =>
     return acc;
   }, []);
 
-const useTree = (initialData) => {
-  const [state, dispatch] = useReducer(reducer, initialData);
+const useTree = (initialState) => {
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const toggle = (node) =>
     dispatch({ type: "TOOGLE_NODE", payload: node.title });
@@ -87,7 +66,7 @@ const useTree = (initialData) => {
     }
   };
 
-  const newState = covnertToTree(state, state.rootNodes);
+  const newState = covnertToTree(state, state?.rootNodes ?? []);
 
   return {
     tree: newState,
