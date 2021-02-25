@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import { getTOCs } from "./API";
 import {
   TreeItemRow,
   TreeItemContainer,
@@ -60,6 +62,8 @@ const TreeItem = ({ item, onToggle, onSelect, level }) => {
       level={level + 1}
     />
   );
+
+  console.log(item.title);
   return (
     <>
       <TreeItemRow isSelected={item.isSelected}>
@@ -98,8 +102,13 @@ const Tree = ({ data, onToggle, onSelect }) =>
   ));
 
 const TreeContainer = () => {
+  // const [treeData, setTreeData] = useState(null);
   const { tree, selectNode, toggle } = useTree(treeData);
-  console.log(tree);
+
+  // useEffect(async () => {
+  //   const TOCs = await getTOCs();
+  //   setTreeData(TOCs);
+  // }, []);
 
   return (
     <div>

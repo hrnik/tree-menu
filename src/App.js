@@ -1,6 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import { Header, SideBar, Container, Content, Main } from "./components/Layout";
-import Tree from "./Tree";
+import Menu from "./Menu";
 const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
@@ -22,7 +22,7 @@ function App() {
       <Header />
       <Main>
         <SideBar>
-          <Tree />
+          <Menu />
         </SideBar>
         <Content></Content>
         <div />
