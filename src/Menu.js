@@ -8,71 +8,27 @@ import {
 import ArrowIcon from "./Tree/components/ArrowIcon";
 import useTree from "./Tree/useTree";
 
-const treeData = {
-  allo: {
-    title: "allo",
-    children: ["1", "2"],
-    level: 0,
-  },
-  "allo 2": {
-    title: "allo 2",
-    children: ["3"],
-    level: 0,
-  },
-  1: {
-    title: "1",
-    level: 1,
-  },
-  2: {
-    title: "2",
-    level: 1,
-  },
-  3: {
-    title: "3",
-    level: 1,
-    children: ["4", "5"],
-  },
-  4: {
-    title: "4",
-    level: 2,
-    anchors: ["anchor1", "anchor2"],
-  },
-  5: {
-    title: "5",
-    level: 2,
-  },
-  anchor1: {
-    type: "anchor",
-    title: "anchor1",
-  },
-  anchor2: {
-    type: "anchor",
-    title: "anchor2",
-  },
-  rootNodes: ["allo", "allo 2"],
-};
-
 const TreeItem = ({ item, onToggle, onSelect, level }) => {
   const renderTreeItem = (children) => (
     <TreeItem
       item={children}
       onToggle={onToggle}
       onSelect={onSelect}
-      key={children.title}
+      key={children.id}
       level={level + 1}
     />
   );
 
-  console.log(item.title);
+  console.log(item.id);
   return (
     <>
       <TreeItemRow isSelected={item.isSelected}>
         <TreeItemWrapper
           level={level}
-          onClick={() => (item.children ? onToggle(item) : onSelect(item))}
+          onClick={() => (item.pages ? onToggle(item) : onSelect(item))}
         >
           <TreeItemContainer isSelected={item.isSelected}>
-            {item.children &&
+            {item.pages &&
               (item.isOpen ? (
                 <ArrowIcon isDown={false} />
               ) : (
@@ -85,7 +41,7 @@ const TreeItem = ({ item, onToggle, onSelect, level }) => {
         {item.anchors && item.isSelected && item.anchors.map(renderTreeItem)}
       </TreeItemRow>
 
-      {item.isOpen && item.children && item.children.map(renderTreeItem)}
+      {item.isOpen && item.pages && item.pages.map(renderTreeItem)}
     </>
   );
 };
@@ -96,19 +52,18 @@ const Tree = ({ data, onToggle, onSelect }) =>
       item={item}
       onToggle={onToggle}
       onSelect={onSelect}
-      key={item.title}
+      key={item.id}
       level={0}
     />
   ));
 
 const TreeContainer = () => {
-  // const [treeData, setTreeData] = useState(null);
-  const { tree, selectNode, toggle } = useTree(treeData);
+  const { tree, selectNode, toggle, setTreeState } = useTree();
 
-  // useEffect(async () => {
-  //   const TOCs = await getTOCs();
-  //   setTreeData(TOCs);
-  // }, []);
+  useEffect(async () => {
+    const TOCs = await getTOCs();
+    setTreeState(TOCs);
+  }, []);
 
   return (
     <div>

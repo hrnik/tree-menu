@@ -1,33 +1,47 @@
 import { useReducer } from "react";
 import produce from "immer";
 
+const TYPES = {
+  SET_STATE: "SET_STATE",
+  SELECT_PAGE: "SELECT_PAGE",
+  SELECT_ANCHOR: "SELECT_ANCHOR",
+  TOOGLE_NODE: "TOOGLE_NODE",
+
+  ANCHOR: "ANCHOR",
+  PAGE: "PAGE",
+};
+
 const reducer = produce((state, action) => {
   const nodeId = action.payload;
   const previusSelectedAnchor = state.selectedAnchorId;
   const previusSelectedNode = state.selectedNodeId;
   switch (action.type) {
-    case "SELECT_PAGE":
+    case TYPES.SET_STATE:
+      state = action.payload;
+      return state;
+    case TYPES.SELECT_PAGE:
       if (nodeId === state.selectedNodeId) return state;
 
-      state[nodeId].isSelected = true;
-      state[nodeId].isOpen = true;
+      state.pages[nodeId].isSelected = true;
+      state.pages[nodeId].isOpen = true;
 
-      if (previusSelectedNode) state[previusSelectedNode].isSelected = false;
+      if (previusSelectedNode)
+        state.pages[previusSelectedNode].isSelected = false;
       if (previusSelectedAnchor)
-        state[previusSelectedAnchor].isSelected = false;
+        state.anchors[previusSelectedAnchor].isSelected = false;
       state.selectedNodeId = nodeId;
       state.selectedAnchorId = null;
-      break;
-    case "SELECT_ANCHOR":
+      return state;
+    case TYPES.SELECT_ANCHOR:
       if (nodeId === state.selectedAnchorId) return state;
-      state[nodeId].isSelected = true;
+      state.anchors[nodeId].isSelected = true;
       if (previusSelectedAnchor)
-        state[previusSelectedAnchor].isSelected = false;
+        state.anchors[previusSelectedAnchor].isSelected = false;
       state.selectedAnchorId = nodeId;
-      break;
-    case "TOOGLE_NODE":
-      state[nodeId].isOpen = !state[nodeId].isOpen;
-      break;
+      return state;
+    case TYPES.TOOGLE_NODE:
+      state.pages[nodeId].isOpen = !state.pages[nodeId].isOpen;
+      return state;
     default:
       return state;
   }
@@ -35,41 +49,56 @@ const reducer = produce((state, action) => {
 
 const covnertToTree = (data, rootNodes) =>
   rootNodes.reduce((acc, val) => {
-    const node = { ...data[val] };
-    if (node && node.children) {
-      const newChildren = covnertToTree(data, node.children);
-      node.children = [...newChildren];
+    const node = { ...data.pages[val] };
+    if (!node) return acc;
+
+    if (node.pages) {
+      node.pages = [...covnertToTree(data, node.pages)];
     }
-    if (node && node.anchors) {
-      const newAnchors = covnertToTree(data, node.anchors);
-      node.anchors = [...newAnchors];
+    if (node.isSelected && node.anchors) {
+      node.anchors = node.anchors.map((id) => ({
+        ...data.anchors[id],
+        type: TYPES.ANCHOR,
+      }));
     }
-    acc.push(node);
+    acc.push({ ...node, type: TYPES.PAGE });
 
     return acc;
   }, []);
 
-const useTree = (initialState) => {
+const useTree = (
+  initialState = {
+    pages: {},
+    anchors: {},
+    selectedAnchorId: null,
+    selectedNodeId: null,
+    rootNodes: [],
+  }
+) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const toggle = (node) =>
-    dispatch({ type: "TOOGLE_NODE", payload: node.title });
+    dispatch({ type: TYPES.TOOGLE_NODE, payload: node.id });
 
   const selectNode = (node) => {
-    if (node.type === "anchor") {
+    if (node.type === TYPES.ANCHOR) {
       dispatch({
-        type: "SELECT_ANCHOR",
-        payload: node.title,
+        type: TYPES.SELECT_ANCHOR,
+        payload: node.id,
       });
     } else {
-      dispatch({ type: "SELECT_PAGE", payload: node.title });
+      dispatch({ type: TYPES.SELECT_PAGE, payload: node.id });
     }
   };
 
-  const newState = covnertToTree(state, state?.rootNodes ?? []);
+  const setTreeState = (data) =>
+    dispatch({ type: TYPES.SET_STATE, payload: data });
+
+  const newState = covnertToTree(state, state.rootNodes);
 
   return {
     tree: newState,
+    setTreeState,
     selectNode,
     toggle,
   };
