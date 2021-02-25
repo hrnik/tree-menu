@@ -26,6 +26,6 @@ export const Content = styled.div`
 `;
 
 export const SideBar = styled.aside`
-  background: lightblue;
+  background: lightgray;
   overflow: scroll;
 `;

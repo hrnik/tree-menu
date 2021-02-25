@@ -1,12 +1,17 @@
 import { createGlobalStyle } from "styled-components";
 import { Header, SideBar, Container, Content, Main } from "./components/Layout";
+import Tree from "./Tree";
 const GlobalStyle = createGlobalStyle`
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smsoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smsoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
 `;
 
 function App() {
@@ -16,7 +21,9 @@ function App() {
 
       <Header />
       <Main>
-        <SideBar></SideBar>
+        <SideBar>
+          <Tree />
+        </SideBar>
         <Content></Content>
         <div />
       </Main>
