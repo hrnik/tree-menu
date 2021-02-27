@@ -27,7 +27,9 @@ export const TreeItemWrapper = styled.div`
   padding-bottom: 8px;
 `;
 
-export const TreeItemContainer = styled.div`
+export const TreeItemContainer = styled.a`
   position: relative;
   font-weight: ${(props) => (props.isSelected ? 600 : "regular")};
+  color: inherit;
+  text-decoration: none;
 `;

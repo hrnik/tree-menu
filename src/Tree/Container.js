@@ -22,7 +22,7 @@ const TreeItem = ({ item, onToggle, onSelect, level, isAnchor }) => {
           level={level}
           onClick={() => (item.pages ? onToggle(item) : onSelect(item))}
         >
-          <TreeItemContainer isSelected={item.isSelected}>
+          <TreeItemContainer href="#" isSelected={item.isSelected}>
             {item.pages &&
               (item.isOpen ? (
                 <ArrowIcon isDown={false} />
