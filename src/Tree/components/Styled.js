@@ -19,6 +19,7 @@ export const TreeItemRow = styled.div`
   font-size: 12px;
   line-height: 16px;
   font-weight: 400;
+  transition: background 0.3s;
 `;
 
 export const TreeItemWrapper = styled.div`
