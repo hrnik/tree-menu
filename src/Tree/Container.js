@@ -1,3 +1,5 @@
+import { useSpring, animated } from "react-spring";
+import useResizeObserver from "use-resize-observer";
 import {
   TreeItemRow,
   TreeItemContainer,
@@ -6,20 +8,22 @@ import {
 import ArrowIcon from "./components/ArrowIcon";
 import Skeleton from "./components/Skeleton";
 
-const TreeItem = ({ item, onToggle, onSelect, level }) => {
-  const renderTreeItem = (children) => (
-    <TreeItem
-      item={children}
-      onToggle={onToggle}
-      onSelect={onSelect}
-      key={children.id}
-      level={level + 1}
-    />
-  );
+const TreeItem = ({
+  item,
+  onToggle,
+  onSelect,
+  level,
+  isSelectedBackground,
+}) => {
+  const { ref, height = 0 } = useResizeObserver();
+
+  const props = useSpring({
+    height: item.isOpen ? height : 0,
+  });
 
   return (
     <>
-      <TreeItemRow isSelected={item.isSelected}>
+      <TreeItemRow isSelected={item.isSelected || isSelectedBackground}>
         <TreeItemWrapper
           level={level}
           onClick={() => (item.pages ? onToggle(item) : onSelect(item))}
@@ -35,10 +39,59 @@ const TreeItem = ({ item, onToggle, onSelect, level }) => {
           </TreeItemContainer>
         </TreeItemWrapper>
 
-        {item.anchors && item.isSelected && item.anchors.map(renderTreeItem)}
+        {/* {item.anchors &&
+          item.isSelected &&
+          item.anchors.map(renderTreeItem(level))} */}
       </TreeItemRow>
 
-      {item.isOpen && item.pages && item.pages.map(renderTreeItem)}
+      <animated.div
+        style={{
+          ...props,
+          overflow: "hidden",
+          position: "relative",
+        }}
+        className="menu"
+      >
+        <div ref={ref}>
+          {item.anchors &&
+            item.isSelected &&
+            item.anchors.map((children) => (
+              <TreeItem
+                item={children}
+                onToggle={onToggle}
+                onSelect={onSelect}
+                key={children.id}
+                level={level}
+                isSelectedBackground={true}
+              />
+            ))}
+
+          {item.isOpen &&
+            item.pages &&
+            item.pages.map((children) => (
+              <TreeItem
+                item={children}
+                onToggle={onToggle}
+                onSelect={onSelect}
+                key={children.id}
+                level={level + 1}
+              />
+            ))}
+        </div>
+      </animated.div>
+
+      {/* {item.isOpen && item.pages && (
+        <animated.div
+          style={{
+            ...props,
+            overflow: "hidden",
+            position: "relative",
+          }}
+          className="menu"
+        >
+          <div ref={ref}>{item.pages.map(renderTreeItem(level + 1))}</div>
+        </animated.div>
+      )} */}
     </>
   );
 };
