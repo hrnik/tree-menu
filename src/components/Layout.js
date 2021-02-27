@@ -15,7 +15,7 @@ export const Container = styled.div`
 
 export const Main = styled.div`
   display: grid;
-  grid-template-columns: 400px 1fr;
+  grid-template-columns: 272px 1fr;
   grid-template-rows: 1fr;
   overflow: hidden;
 `;
@@ -26,6 +26,6 @@ export const Content = styled.div`
 `;
 
 export const SideBar = styled.aside`
-  background: lightgray;
+  border-right: 1px solid rgba(39, 40, 44, 0.2);
   overflow: scroll;
 `;
