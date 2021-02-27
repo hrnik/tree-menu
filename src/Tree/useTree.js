@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useReducer, useCallback } from "react";
 import produce from "immer";
 
 const TYPES = {
@@ -147,10 +147,12 @@ const useTree = (
 ) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const toggle = (node) =>
-    dispatch({ type: TYPES.TOOGLE_NODE, payload: node.id });
+  const toggle = useCallback(
+    (node) => dispatch({ type: TYPES.TOOGLE_NODE, payload: node.id }),
+    []
+  );
 
-  const selectNode = (node) => {
+  const selectNode = useCallback((node) => {
     if (node.type === TYPES.ANCHOR) {
       dispatch({
         type: TYPES.SELECT_ANCHOR,
@@ -159,7 +161,7 @@ const useTree = (
     } else {
       dispatch({ type: TYPES.SELECT_PAGE, payload: node.id });
     }
-  };
+  }, []);
 
   const setTreeState = (data) =>
     dispatch({ type: TYPES.SET_STATE, payload: data });
