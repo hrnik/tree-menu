@@ -129,6 +129,8 @@ const covnertToTree = (data, rootNodes) =>
         }
         return acc;
       }, []);
+    } else {
+      delete node.anchors;
     }
 
     acc.push({ ...node, type: TYPES.PAGE });
