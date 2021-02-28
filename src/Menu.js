@@ -49,6 +49,7 @@ const TreeContainer = () => {
             setMenuFilter(e.target.value);
             onDebounce(e.target.value);
           }}
+          data-test-hook="filter"
         />
       </InputContainer>
       <Tree

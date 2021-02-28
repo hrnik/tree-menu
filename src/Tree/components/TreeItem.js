@@ -17,6 +17,7 @@ class TreeItem extends Component {
           isAnchor={isAnchor}
           level={level}
           onClick={() => (item.pages ? onToggle(item) : onSelect(item))}
+          data-test-hook="tree-item"
         >
           <TreeItemLink href="#" isSelected={item.isSelected}>
             {item.pages &&
