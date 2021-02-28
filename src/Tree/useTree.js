@@ -60,23 +60,25 @@ const reducer = produce((state, action) => {
         filterNode
       );
 
-      state.filteredPagesIDs = filteredPagesWithoutParents.reduce(
+      const mapFilteredPagesIDs = filteredPagesWithoutParents.reduce(
         (acc, page) => {
-          if (!acc.includes(page.id)) {
-            acc.push(page.id);
+          if (!acc[page.id]) {
+            acc[page.id] = true;
           }
 
           let parentId = page.parentId;
 
           while (parentId) {
-            acc.push(parentId);
+            acc[parentId] = true;
             parentId = state.pages[parentId]?.parentId;
           }
 
           return acc;
         },
-        []
+        {}
       );
+
+      state.filteredPagesIDs = Object.keys(mapFilteredPagesIDs);
 
       state.filteredAnchorsIDs = Object.values(state.anchors)
         .filter(filterNode)
@@ -170,8 +172,6 @@ const useTree = (
     dispatch({ type: TYPES.SET_FILTER, payload: data });
 
   const newState = covnertToTree(getFilteredTree(state), state.rootNodes);
-
-  console.log(newState);
 
   return {
     tree: newState,
