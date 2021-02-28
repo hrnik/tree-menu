@@ -1,7 +1,7 @@
 import styled, { keyframes } from "styled-components";
 
 const loading = keyframes`
-  0% {//
+  0% {
     background-position: -5000% 0, 0 0
   }
   50% {
@@ -14,7 +14,6 @@ const loading = keyframes`
 `;
 
 const Container = styled.div`
-  padding-top: 16px;
   padding-left: 24px;
   padding-right: 24px;
 `;
@@ -22,8 +21,8 @@ const Container = styled.div`
 const SkeletonItemContainer = styled.div`
   padding-bottom: 8px;
   padding-top: 8px;
-  padding-right: ${(props) => (props.pr ? `${24 + props.pr * 24}px` : "")};
-  padding-left: ${(props) => (props.pl ? `${24 + props.pl * 24}px` : "")};
+  padding-right: ${(props) => (props.pr ? `${props.pr * 16}px` : "")};
+  padding-left: ${(props) => (props.pl ? `${props.pl * 16}px` : "")};
 `;
 
 const SkeletonItemPlaceholder = styled.div`
@@ -35,10 +34,10 @@ const SkeletonItemPlaceholder = styled.div`
   background-image: linear-gradient(
       90deg,
       hsla(0, 0%, 100%, 0),
-      hsl(0 0% 81% / 80%) 50%,
-      hsla(0, 0%, 100%, 0)
+      hsl(0deg 0% 90% / 80%) 50%,
+      hsl(0deg 0% 65% / 0%)
     ),
-    linear-gradient(darkgray 100%, transparent 0);
+    linear-gradient(#f4f4f4 100%, transparent 0);
   background-size: 99% 100%, cover;
 `;
 
