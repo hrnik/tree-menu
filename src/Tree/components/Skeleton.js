@@ -13,16 +13,11 @@ const loading = keyframes`
   }
 `;
 
-const Container = styled.div`
-  padding-left: 24px;
-  padding-right: 24px;
-`;
-
 const SkeletonItemContainer = styled.div`
   padding-bottom: 8px;
   padding-top: 8px;
-  padding-right: ${(props) => (props.pr ? `${props.pr * 16}px` : "")};
-  padding-left: ${(props) => (props.pl ? `${props.pl * 16}px` : "")};
+  padding-left: ${(props) => (props.pl ? `${24 + props.pl * 8}px` : "")};
+  padding-right: ${(props) => (props.pr ? `${24 + props.pr * 8}px` : "")};
 `;
 
 const SkeletonItemPlaceholder = styled.div`
@@ -41,7 +36,7 @@ const SkeletonItemPlaceholder = styled.div`
   background-size: 99% 100%, cover;
 `;
 
-const SkeletonItem = ({ pr, pl }) => (
+const SkeletonItem = ({ pr = 1, pl = 1 }) => (
   <SkeletonItemContainer pr={pr} pl={pl}>
     <SkeletonItemPlaceholder />
   </SkeletonItemContainer>
@@ -49,18 +44,18 @@ const SkeletonItem = ({ pr, pl }) => (
 
 const SkeletonSection = () => (
   <>
-    <SkeletonItem pr={3} />
-    <SkeletonItem pl={1} pr={1} />
-    <SkeletonItem pl={1} pr={3} />
-    <SkeletonItem pl={1} pr={1} />
+    <SkeletonItem pr={5} />
+    <SkeletonItem pl={4} pr={2} />
+    <SkeletonItem pl={4} pr={8} />
+    <SkeletonItem pl={4} pr={2} />
   </>
 );
 
 const Skeleton = () => (
-  <Container>
+  <>
     <SkeletonSection />
     <SkeletonSection />
-  </Container>
+  </>
 );
 
 export default Skeleton;

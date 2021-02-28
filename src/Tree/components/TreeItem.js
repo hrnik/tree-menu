@@ -1,6 +1,6 @@
 import { Component } from "react";
 import isEqual from "react-fast-compare";
-import { TreeItemRow, TreeItemContainer, TreeItemWrapper } from "./Styled";
+import { TreeItemRow, TreeItemLink } from "./Styled";
 import ArrowIcon from "./ArrowIcon";
 
 class TreeItem extends Component {
@@ -15,21 +15,18 @@ class TreeItem extends Component {
         <TreeItemRow
           isSelected={item.isSelected || isAnchor}
           isAnchor={isAnchor}
+          level={level}
+          onClick={() => (item.pages ? onToggle(item) : onSelect(item))}
         >
-          <TreeItemWrapper
-            level={level}
-            onClick={() => (item.pages ? onToggle(item) : onSelect(item))}
-          >
-            <TreeItemContainer href="#" isSelected={item.isSelected}>
-              {item.pages &&
-                (item.isOpen ? (
-                  <ArrowIcon isDown={false} />
-                ) : (
-                  <ArrowIcon isDown={true} />
-                ))}
-              {item.title}
-            </TreeItemContainer>
-          </TreeItemWrapper>
+          <TreeItemLink href="#" isSelected={item.isSelected}>
+            {item.pages &&
+              (item.isOpen ? (
+                <ArrowIcon isDown={false} />
+              ) : (
+                <ArrowIcon isDown={true} />
+              ))}
+            {item.title}
+          </TreeItemLink>
         </TreeItemRow>
 
         {item.anchors &&

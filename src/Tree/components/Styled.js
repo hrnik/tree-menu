@@ -6,29 +6,24 @@ const COLORS = {
 };
 
 export const TreeItemRow = styled.div`
-  padding-left: 32px;
-  padding-right: 32px;
+  padding: 8px 32px;
+  padding-left: ${(props) => `${32 + props.level * 16}px`};
 
   background: ${(props) => props.isSelected && COLORS.HOVER_NODE};
-  cursor: pointer;
-  :hover {
-    background: ${(props) =>
-      props.isAnchor ? COLORS.HOVER_ANCHOR : COLORS.HOVER_NODE};
-  }
 
   font-size: 12px;
   line-height: 16px;
   font-weight: 400;
   transition: background 0.3s;
+
+  :hover {
+    cursor: pointer;
+    background: ${(props) =>
+      props.isAnchor ? COLORS.HOVER_ANCHOR : COLORS.HOVER_NODE};
+  }
 `;
 
-export const TreeItemWrapper = styled.div`
-  padding-left: ${(props) => `${props.level * 16}px`};
-  padding-top: 8px;
-  padding-bottom: 8px;
-`;
-
-export const TreeItemContainer = styled.a`
+export const TreeItemLink = styled.a`
   position: relative;
   font-weight: ${(props) => (props.isSelected ? 600 : "regular")};
   color: inherit;
