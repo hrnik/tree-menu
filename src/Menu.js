@@ -17,7 +17,7 @@ const InputContainer = styled.div`
 
 const TreeContainer = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [filter, setMenuFilter] = useState("");
+  const [, setMenuFilter] = useState("");
   const { tree, selectNode, toggle, setTreeState, setFilter } = useTree();
 
   useEffect(() => {
@@ -33,10 +33,9 @@ const TreeContainer = () => {
 
   const onDebounce = useCallback(
     debounce((nextValue) => {
-      console.log(nextValue);
       setIsLoading(false);
       setFilter(nextValue);
-    }, 800),
+    }, 600),
     []
   );
 
