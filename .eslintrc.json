@@ -1,16 +1,10 @@
 {
-  "eslintConfig": {
-    "extends": ["react-app", "shared-config"],
+    "extends": ["react-app"],
  
-    "overrides": [
-      {
-        "plugins": [
-          "cypress"
-        ],
-        "env": {
-          "cypress/globals": true
-        }
-      }
-    ]
-  }
+    "plugins": [
+      "cypress"
+    ],
+    "env": {
+      "cypress/globals": true
+    }
 }
