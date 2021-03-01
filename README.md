@@ -1,4 +1,4 @@
-# Tree Menu
+# Tree Menu 🌳
 
 Demo: [http://tree-menu-nk.surge.sh/](http://tree-menu-nk.surge.sh/)
 
@@ -32,7 +32,13 @@ For e2e
 - Filtering
 - Navigation with [TAB] and [ENTER] key.
 
-Animation is not done, because height animation it's really heavy for large list of items.
+
+## Animation
+I didn't include the animation in this version, because natular height anumation is heavy for browser to render. 
+I made some version, which work for fine, for average amount of rendered nodes. But if you type in filter input - "a", it will render a lof of nodes abd browser will suffer to animate them.
+
+You can check demo [http://tree-item-animaton.surge.sh/#](http://tree-item-animaton.surge.sh/#)
+Branch: [https://github.com/hrnik/tree-menu/tree/animation](https://github.com/hrnik/tree-menu/tree/animation)
 
 
 
