@@ -6,7 +6,7 @@ Demo: [http://tree-menu-nk.surge.sh/](http://tree-menu-nk.surge.sh/)
 
 ## Getting started
 
-### Install dependecies
+### Install dependencies
 `npm run install`
 
 ### Start Project
@@ -34,8 +34,7 @@ For e2e
 
 
 ## Animation
-I didn't include the animation in this version, because natular height anumation is heavy for browser to render. 
-I made some version, which work for fine, for average amount of rendered nodes. But if you type in filter input - "a", it will render a lof of nodes abd browser will suffer to animate them.
+I didn't include the animation of expanding branch in this version, because the height animation is heavy for the browser to render. I made some version, which works fine, for the average amount of rendered nodes. But if you type in filter input - "a", it will render a lot of nodes and the browser will suffer to animate them.
 
 You can check demo [http://tree-item-animaton.surge.sh/#](http://tree-item-animaton.surge.sh/#)
 Branch: [https://github.com/hrnik/tree-menu/tree/animation](https://github.com/hrnik/tree-menu/tree/animation)
