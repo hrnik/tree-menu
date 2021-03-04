@@ -7,24 +7,27 @@ Demo: [http://tree-menu-nk.surge.sh/](http://tree-menu-nk.surge.sh/)
 ## Getting started
 
 ### Install dependencies
+
 `npm run install`
 
 ### Start Project
+
 `npm run start`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 ### Build production assets
+
 `npm run build`
 
 ### Run test
+
 For unit:
 `npm run test`
 
 For e2e
-`npm cypress e2e
-`
+`npm run e2e `
 
 ## Features
 
@@ -32,14 +35,12 @@ For e2e
 - Filtering
 - Navigation with [TAB] and [ENTER] key.
 
-
 ## Animation
+
 I didn't include the animation of expanding branch in this version, because the height animation is heavy for the browser to render. I made some version, which works fine, for the average amount of rendered nodes. But if you type in filter input - "a", it will render a lot of nodes and the browser will suffer to animate them.
 
 You can check demo [http://tree-item-animaton.surge.sh/#](http://tree-item-animaton.surge.sh/#)
 Branch: [https://github.com/hrnik/tree-menu/tree/animation](https://github.com/hrnik/tree-menu/tree/animation)
-
-
 
 ## Project structure
 
@@ -49,7 +50,7 @@ Tree
 └─── Tree             // Module for Tree component
 |   |    useTree.js   // State and method to control Tree
 |   |    ...
-|   |    
+|   |
 └─── components       // Dumb components for style
 │   Menu.js           // Smart component which control Tree and make Api call
 |  ...
@@ -58,9 +59,10 @@ Tree
 
 ## Tree module
 
-The Tree module exports: 
+The Tree module exports:
+
 - the dumb **Tree** component which render the tree
-- **useTree** -  it's a custom hook, which help to manage state of Tree component and provide API for actions.
+- **useTree** - it's a custom hook, which help to manage state of Tree component and provide API for actions.
 
 ```js
 import Tree from "./Tree";
@@ -82,19 +84,16 @@ const tree = [
 ];
 
 <Tree
-    data={tree}
-    onToggle={node => {}}
-    onSelect={node => {}}
-    isLoading={isLoading}
-/>
-
+  data={tree}
+  onToggle={(node) => {}}
+  onSelect={(node) => {}}
+  isLoading={isLoading}
+/>;
 ```
-
 
 ### useTree
 
- It's a custom hook, which help to manage state of Tree component and provide API for actions.
-
+It's a custom hook, which help to manage state of Tree component and provide API for actions.
 
 ```js
 const { tree, selectNode, toggle, setTreeState, setFilter } = useTree();
@@ -106,8 +105,9 @@ const { tree, selectNode, toggle, setTreeState, setFilter } = useTree();
 
 Actions:
 
-`setTreeState(FLAT_TREE)` - 
+`setTreeState(FLAT_TREE)` -
 Set tree state. It's receiving a flat tree structure and converts it to hierarchical data.
+
 ```js
   const FLAT_TREE = {
     pages: {
@@ -129,6 +129,6 @@ Set tree state. It's receiving a flat tree structure and converts it to hierarch
 
 `selectNode(Node)` - Select Node
 
-`toggle(Node)`  - Toggle node
+`toggle(Node)` - Toggle node
 
-`setFilter(string)` -  Set fitler
+`setFilter(string)` - Set fitler
